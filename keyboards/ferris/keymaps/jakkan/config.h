@@ -32,8 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // The default is 40
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 100
 
-// Pick good defaults for enabling homerow modifiers
-#define TAPPING_TERM 200
+// I've tried 200, it caused mo to accidentally activate hold more than I liked
+#define TAPPING_TERM 220
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 0
 
