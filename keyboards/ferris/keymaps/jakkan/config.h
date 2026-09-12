@@ -16,6 +16,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
+
+// The halves share 5V over the TRRS cable and these controllers don't isolate
+// the VBUS pad from that rail, so the unplugged half reads VBUS high, declares
+// itself master too, and neither side ever runs the slave loop. Deciding on an
+// actual USB address instead of VBUS picks the plugged half every time. Costs
+// the slave up to SPLIT_USB_TIMEOUT (2 s) before it starts scanning.
+#define SPLIT_USB_DETECT
+
+// No handedness detection is configured, here or in the keyboard, so QMK falls
+// back to MASTER_LEFT: the half holding the cable is the left half. Keep the
+// cable in the left half. See the README for the EE_HANDS alternative.
+
+// The other Sweep has its right half wired in reverse: physical inner-index
+// column sits on the pin a stock right half uses for the pinky, and so on.
+// Scanning that half with the LEFT pin map undoes it, so one layout serves
+// both boards. Build with:  qmk compile ... -e MIRRORED_RIGHT=yes
+#ifdef MIRRORED_RIGHT
+#    undef DIRECT_PINS_RIGHT
+#    define DIRECT_PINS_RIGHT DIRECT_PINS
+#endif
 // Set the mouse settings to a comfortable speed/accuracy trade-off,
 // assuming a screen refresh rate of 60 Htz or higher
 // The default is 50. This makes the mouse ~3 times faster and more accurate
